@@ -163,9 +163,6 @@ class World:
             tank_storage_decimal = tank_storage_vol / tank_storage_max_vol
             tank_separator_decimal = tank_separator_vol / tank_separator_sensor_vol
 
-            # Display on Raspberry Pi
-           # RasPi().shift_out_values(tank_storage_decimal, tank_separator_decimal)
-            # RasPi().set_servos()
 
             # Print info
             os.system("clear")
