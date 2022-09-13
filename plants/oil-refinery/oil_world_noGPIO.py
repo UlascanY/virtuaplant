@@ -11,14 +11,15 @@ import time
 from pymodbus.datastore import (ModbusSequentialDataBlock, ModbusServerContext,
                                 ModbusSlaveContext)
 from pymodbus.device import ModbusDeviceIdentification
-from pymodbus.server.async import StartTcpServer
+from pymodbus.server.asynchronous import StartTcpServer
 from pymodbus.transaction import ModbusAsciiFramer, ModbusRtuFramer
 from termcolor import colored
 
 # PWM Module
 import Adafruit_PCA9685
-import RPi.GPIO as GPIO
 
+
+world_running = True
 
 # GPIO Class
 class RasPi:
@@ -55,7 +56,7 @@ class RasPi:
        # self.pwm.set_pwm_freq(60)
 
     def shift_out_values(self, storage_decimal, separator_decimal):
-        GPIO.output(self.data_latch_pin, 0)
+   #     GPIO.output(self.data_latch_pin, 0)
         for x in range(8):
             GPIO.output(self.storage_tank_pin,
                         (self.calc_leds_from_decimal(storage_decimal, self.storage_tank_reg_size)) >> x & 1)
@@ -91,17 +92,6 @@ class RasPi:
         # leds_base2 += 1 if PLCGetTag(PLC_ALARM) == 1 else 0
         return leds_base2
 
-    def set_servos(self):
-        #self.pwm.set_pwm(self.servo_addr_outlet, 0, self.servo_on if plc_get_tag(
-        #    PLC_OUTLET_VALVE) == 1 else self.servo_off)
-        #self.pwm.set_pwm(self.servo_addr_sep, 0, self.servo_on if plc_get_tag(
-        #    PLC_SEP_VALVE) == 1 else self.servo_off)
-        #self.pwm.set_pwm(self.servo_addr_waste, 0, self.servo_on if plc_get_tag(
-        #    PLC_WASTE_VALVE) == 1 else self.servo_off)
-
-
-world_running = True
-
 
 class World:
 
@@ -123,7 +113,7 @@ class World:
         oil_spilt = 0
 
         # Setup the PI!
-        RasPi().setup_gpio()
+        #RasPi().setup_gpio()
 
         while True:
             error = "\nCurrent Errors \n"
@@ -177,7 +167,7 @@ class World:
             tank_separator_decimal = tank_separator_vol / tank_separator_sensor_vol
 
             # Display on Raspberry Pi
-            RasPi().shift_out_values(tank_storage_decimal, tank_separator_decimal)
+           # RasPi().shift_out_values(tank_storage_decimal, tank_separator_decimal)
             # RasPi().set_servos()
 
             # Print info
