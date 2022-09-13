@@ -15,9 +15,6 @@ from pymodbus.server.asynchronous import StartTcpServer
 from pymodbus.transaction import ModbusAsciiFramer, ModbusRtuFramer
 from termcolor import colored
 
-# PWM Module
-import Adafruit_PCA9685
-
 
 world_running = True
 
