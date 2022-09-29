@@ -1,10 +1,9 @@
 Twisted==22.8.0
 argparse==1.4.0
-distribute==0.7.3
 pyasn1==0.4.8
 pycrypto==2.6.1
 pymodbus==2.5.3
 pymunk==6.2.1
 pyserial==3.5
-wsgiref==0.1.2
+setuptools==65.4.0
 zope.interface==5.4.0
