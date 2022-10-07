@@ -197,6 +197,6 @@ def app_main():
 
 
 if __name__ == "__main__":
-    GObject.threads_init()
+    #GObject.threads_init() // not longer needed 
     app_main()
     Gtk.main()
