@@ -12,11 +12,18 @@ from pymodbus.exceptions import ConnectionException
 
 MODBUS_SLEEP=1
 
+def get_ip():
+    from netifaces import interfaces, ifaddresses, AF_INET
+    for ifaceName in interfaces():
+        addresses = [i['addr'] for i in ifaddresses(ifaceName).setdefault(AF_INET, [{'addr':'No IP addr'}] )]
+        if ifaceName == "enp0s3":
+            return ''.join(addresses)
+
 class HMIWindow(Gtk.Window):
 
     def initModbus(self):
 
-        self.modbusClient = ModbusClient('localhost', port=5020)
+        self.modbusClient = ModbusClient(str(get_ip()), port=5020)
 
     def resetLabels(self):
         self.bottlePositionValue.set_markup("<span weight='bold' foreground='gray33'>N/A</span>")
@@ -101,7 +108,7 @@ class HMIWindow(Gtk.Window):
         elementIndex += 1
 
         IPText = Gtk.Entry()
-        IPText.set_text("%s:%s" % ("localhost", 5020))
+        IPText.set_text("%s:%s" % (str(get_ip()), 5020))
 
         IPButton = Gtk.Button("APPLY")
         IPButton.connect("clicked", self.setIPPLC)

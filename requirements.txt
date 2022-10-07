@@ -3,8 +3,10 @@ argparse==1.4.0
 pyasn1==0.4.8
 pycrypto==2.6.1
 pymodbus==2.5.3
-pymunk==6.2.1
+pymunk==4.0.0
+pygame==2.1.2
 pyserial==3.5
 setuptools==65.4.0
+uModbus==1.0.4
 zope.interface==5.4.0
 PyGObject
