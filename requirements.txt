@@ -7,3 +7,4 @@ pymunk==6.2.1
 pyserial==3.5
 setuptools==65.4.0
 zope.interface==5.4.0
+PyGObject
