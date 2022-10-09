@@ -45,7 +45,7 @@ class HMIWindow(Gtk.Window):
     
     def initModbus(self):
         # Create modbus connection to specified address and port
-        self.modbusClient = ModbusClient(args.server_addr, port=5020)
+        self.modbusClient = ModbusClient(args.server_addr, port=5022)
 
     # Default values for the HMI labels
     def resetLabels(self):
@@ -81,11 +81,11 @@ class HMIWindow(Gtk.Window):
         elementIndex += 1
 
         # Crude Oil Feed Pump
-        feed_pump_label = Gtk.Label("Crude Oil Tank Feed Pump")
+        feed_pump_label = Gtk.Label(label="Crude Oil Tank Feed Pump")
         feed_pump_value = Gtk.Label()
         
-        feed_pump_start_button = Gtk.Button("START")
-        feed_pump_stop_button = Gtk.Button("STOP")
+        feed_pump_start_button = Gtk.Button(label="START")
+        feed_pump_stop_button = Gtk.Button(label="STOP")
         
         feed_pump_start_button.connect("clicked", self.setPump, 1)
         feed_pump_stop_button.connect("clicked", self.setPump, 0)
@@ -97,11 +97,11 @@ class HMIWindow(Gtk.Window):
         elementIndex += 1
         
         # Level Switch
-        level_switch_label = Gtk.Label("Crude Oil Tank Level Switch")
+        level_switch_label = Gtk.Label(label="Crude Oil Tank Level Switch")
         level_switch_value = Gtk.Label()
         
-        level_switch_start_button = Gtk.Button("ON")
-        level_switch_stop_button = Gtk.Button("OFF")
+        level_switch_start_button = Gtk.Button(label="ON")
+        level_switch_stop_button = Gtk.Button(label="OFF")
         
         level_switch_start_button.connect("clicked", self.setTankLevel, 1)
         level_switch_stop_button.connect("clicked", self.setTankLevel, 0)
@@ -113,11 +113,11 @@ class HMIWindow(Gtk.Window):
         elementIndex += 1
         
         #outlet valve
-        outlet_valve_label = Gtk.Label("Outlet Valve")
+        outlet_valve_label = Gtk.Label(label="Outlet Valve")
         outlet_valve_value = Gtk.Label()
 
-        outlet_vlave_open_button = Gtk.Button("OPEN")
-        outlet_valve_close_button = Gtk.Button("CLOSE")
+        outlet_vlave_open_button = Gtk.Button(label="OPEN")
+        outlet_valve_close_button = Gtk.Button(label="CLOSE")
 
         outlet_vlave_open_button.connect("clicked", self.setOutletValve, 1)
         outlet_valve_close_button.connect("clicked", self.setOutletValve, 0)
@@ -129,11 +129,11 @@ class HMIWindow(Gtk.Window):
         elementIndex += 1
 
         #Separator Vessel
-        separator_label = Gtk.Label("Separator Vessel Valve")
+        separator_label = Gtk.Label(label="Separator Vessel Valve")
         separator_value = Gtk.Label()
 
-        separator_open_button = Gtk.Button("OPEN")
-        separator_close_button = Gtk.Button("CLOSED")
+        separator_open_button = Gtk.Button(label="OPEN")
+        separator_close_button = Gtk.Button(label="CLOSED")
 
         separator_open_button.connect("clicked", self.setSepValve, 1)
         separator_close_button.connect("clicked", self.setSepValve, 0)
@@ -145,11 +145,11 @@ class HMIWindow(Gtk.Window):
         elementIndex += 1
 
         #Waste Water Valve
-        waste_label = Gtk.Label("Waste Water Valve")
+        waste_label = Gtk.Label(label="Waste Water Valve")
         waste_value = Gtk.Label()
         
-        waste_open_button = Gtk.Button("OPEN")
-        waste_close_button = Gtk.Button("CLOSED")
+        waste_open_button = Gtk.Button(label="OPEN")
+        waste_close_button = Gtk.Button(label="CLOSED")
         
         waste_open_button.connect("clicked", self.setWasteValve, 1)
         waste_close_button.connect("clicked", self.setWasteValve, 0)
@@ -161,28 +161,28 @@ class HMIWindow(Gtk.Window):
         elementIndex += 1
         
         # Process status
-        process_status_label = Gtk.Label("Process Status")
+        process_status_label = Gtk.Label(label="Process Status")
         process_status_value = Gtk.Label()
         grid.attach(process_status_label, 4, elementIndex, 1, 1)
         grid.attach(process_status_value, 5, elementIndex, 1, 1)
         elementIndex += 1
 
         # Connection status
-        connection_status_label = Gtk.Label("Connection Status")
+        connection_status_label = Gtk.Label(label="Connection Status")
         connection_status_value = Gtk.Label()
         grid.attach(connection_status_label, 4, elementIndex, 1, 1)
         grid.attach(connection_status_value, 5, elementIndex, 1, 1)
         elementIndex += 1
         
         # Oil Processed Status 
-        oil_processed_label = Gtk.Label("Oil Processed Status")
+        oil_processed_label = Gtk.Label(label="Oil Processed Status")
         oil_processed_value = Gtk.Label()
         grid.attach(oil_processed_label, 4, elementIndex, 1, 1)
         grid.attach(oil_processed_value, 5, elementIndex, 1, 1)
         elementIndex += 1
         
         # Oil Spilled Status
-        oil_spilled_label = Gtk.Label("Oil Spilled Status")
+        oil_spilled_label = Gtk.Label(label="Oil Spilled Status")
         oil_spilled_value = Gtk.Label()
         grid.attach(oil_spilled_label, 4, elementIndex, 1, 1)
         grid.attach(oil_spilled_value, 5, elementIndex, 1, 1)
@@ -207,7 +207,7 @@ class HMIWindow(Gtk.Window):
 
         # Set default label values
         self.resetLabels()
-        GObject.timeout_add_seconds(MODBUS_SLEEP, self.update_status)
+        GLib.timeout_add_seconds(MODBUS_SLEEP, self.update_status)
 
     # Control the feed pump register values
     def setPump(self, widget, data=None):

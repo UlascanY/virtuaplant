@@ -65,8 +65,8 @@ SCREEN_WIDTH = 580
 SCREEN_HEIGHT = 460
 FPS = 50.0
 
-# Port the world will listen on
-MODBUS_SERVER_PORT = 5020
+# Port the world will listen on 5020 is reserved for Bottle-filling
+MODBUS_SERVER_PORT = 5022
 
 # Amount of oil spilled/processed
 oil_spilled_amount = 0
