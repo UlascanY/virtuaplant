@@ -55,50 +55,50 @@ class HMIWindow(Gtk.Window):
         elementIndex += 1
 
         # Bottle in position label
-        bottlePositionLabel = Gtk.Label("Bottle in position")
+        bottlePositionLabel = Gtk.Label(label="Bottle in position")
         bottlePositionValue = Gtk.Label()
         grid.attach(bottlePositionLabel, 0, elementIndex, 1, 1)
         grid.attach(bottlePositionValue, 1, elementIndex, 1, 1)
         elementIndex += 1
 
         # Nozzle status label
-        nozzleStatusLabel = Gtk.Label("Nozzle Status")
+        nozzleStatusLabel = Gtk.Label(label="Nozzle Status")
         nozzleStatusValue = Gtk.Label()
         grid.attach(nozzleStatusLabel, 0, elementIndex, 1, 1)
         grid.attach(nozzleStatusValue, 1, elementIndex, 1, 1)
         elementIndex += 1
 
         # Motor status label
-        motorStatusLabel = Gtk.Label("Motor Status")
+        motorStatusLabel = Gtk.Label(label="Motor Status")
         motorStatusValue = Gtk.Label()
         grid.attach(motorStatusLabel, 0, elementIndex, 1, 1)
         grid.attach(motorStatusValue, 1, elementIndex, 1, 1)
         elementIndex += 1
 
         # Level hit label
-        levelHitLabel = Gtk.Label("Level Hit")
+        levelHitLabel = Gtk.Label(label="Level Hit")
         levelHitValue = Gtk.Label()
         grid.attach(levelHitLabel, 0, elementIndex, 1, 1)
         grid.attach(levelHitValue, 1, elementIndex, 1, 1)
         elementIndex += 1
 
         # Process status
-        processStatusLabel = Gtk.Label("Process Status")
+        processStatusLabel = Gtk.Label(label="Process Status")
         processStatusValue = Gtk.Label()
         grid.attach(processStatusLabel, 0, elementIndex, 1, 1)
         grid.attach(processStatusValue, 1, elementIndex, 1, 1)
         elementIndex += 1
 
         # Connection status
-        connectionStatusLabel = Gtk.Label("Connection Status")
+        connectionStatusLabel = Gtk.Label(label="Connection Status")
         connectionStatusValue = Gtk.Label()
         grid.attach(connectionStatusLabel, 0, elementIndex, 1, 1)
         grid.attach(connectionStatusValue, 1, elementIndex, 1, 1)
         elementIndex += 1
 
         # Run and Stop buttons
-        runButton = Gtk.Button("Run")
-        stopButton = Gtk.Button("Stop")
+        runButton = Gtk.Button(label="Run")
+        stopButton = Gtk.Button(label="Stop")
 
         runButton.connect("clicked", self.setProcess, 1)
         stopButton.connect("clicked", self.setProcess, 0)
@@ -110,7 +110,7 @@ class HMIWindow(Gtk.Window):
         IPText = Gtk.Entry()
         IPText.set_text("%s:%s" % (str(get_ip()), 5020))
 
-        IPButton = Gtk.Button("APPLY")
+        IPButton = Gtk.Button(label="APPLY")
         IPButton.connect("clicked", self.setIPPLC)
 
         grid.attach(IPText, 0, elementIndex, 1, 1)
@@ -132,7 +132,7 @@ class HMIWindow(Gtk.Window):
         self.nozzleStatusValue = nozzleStatusValue
 
         self.resetLabels()
-        GObject.timeout_add_seconds(MODBUS_SLEEP, self.update_status)
+        GLib.timeout_add_seconds(MODBUS_SLEEP, self.update_status)
 
     def setIPPLC(self, widget):
         try:
