@@ -62,7 +62,7 @@ PLC_TAG_RUN = 0x10
 global bottles
 bottles = []
 
-bg = pygame.image.load("fact8.png")
+bg = pygame.image.load("fact6.png")
 
 def get_ip():
     from netifaces import interfaces, ifaddresses, AF_INET
@@ -85,10 +85,10 @@ def add_ball(space):
     body._bodycontents.v_limit = 120
     body._bodycontents.h_limit = 1
     x = random.randint(181,182)
-    body.position = x-12, 460
+    body.position = x, 410
     shape = pymunk.Circle(body, radius, (0,0))
     shape.collision_type = 0x5 #liquid
-    shape.elasticity = 0.1
+    #shape.elasticity = 0.1
     space.add(body, shape)
     return shape
 
@@ -99,7 +99,7 @@ def draw_ball(screen, ball, color=THECOLORS['blue']):
 def add_bottle_in_sensor(space):
 
     body = pymunk.Body()
-    body.position = (40, 330)
+    body.position = (40, 300)
     radius = 2
     shape = pymunk.Circle(body, radius, (0, 0))
     shape.collision_type = 0x7 # 'bottle_in'
@@ -109,7 +109,7 @@ def add_bottle_in_sensor(space):
 def add_level_sensor(space):
 
     body = pymunk.Body()
-    body.position = (155, 410)
+    body.position = (155, 380)
     radius = 3
     shape = pymunk.Circle(body, radius, (0, 0))
     shape.collision_type = 0x4 # level_sensor
@@ -119,7 +119,7 @@ def add_level_sensor(space):
 def add_limit_switch(space):
 
     body = pymunk.Body()
-    body.position = (200, 330)
+    body.position = (200, 300)
     radius = 2
     shape = pymunk.Circle(body, radius, (0, 0))
     shape.collision_type = 0x1 # switch
@@ -129,7 +129,7 @@ def add_limit_switch(space):
 def add_nozzle(space):
 
     body = pymunk.Body()
-    body.position = (172, 485)
+    body.position = (180, 430)
     shape = pymunk.Poly.create_box(body, (15, 20), (0, 0), 0)
     space.add(shape)
     return shape
@@ -137,7 +137,7 @@ def add_nozzle(space):
 def add_base(space):
 
     body = pymunk.Body()
-    body.position = (0, 330)
+    body.position = (0, 300)
     shape = pymunk.Poly.create_box(body, (SCREEN_WIDTH, 20), ((SCREEN_WIDTH/2), -10), 0)
     shape.friction = 1.0
     shape.collision_type = 0x6 # base
@@ -148,14 +148,14 @@ def add_bottle(space):
     mass = 10
     inertia = 0xFFFFFFFFF
     body = pymunk.Body(mass, inertia)
-    body.position = (130,330)
-    l1 = pymunk.Segment(body, (-150, 0), (-100, 0), 8)
-    l2 = pymunk.Segment(body, (-150, 0), (-150, 100),8)
-    l3 = pymunk.Segment(body, (-100, 0), (-100, 100), 8)
-    l4 = pymunk.Segment(body, (-150, 100), (-140, 115), 8)
-    l5 = pymunk.Segment(body, (-100, 100), (-110, 115), 8)
-    l6 = pymunk.Segment(body, (-140, 115), (-140, 125), 8)
-    l7 = pymunk.Segment(body, (-110, 115), (-110, 125), 8)
+    body.position = (130,300)
+    l1 = pymunk.Segment(body, (-150, 0), (-100, 0), 2)
+    l2 = pymunk.Segment(body, (-150, 0), (-150, 100), 2)
+    l3 = pymunk.Segment(body, (-100, 0), (-100, 100), 2)
+    l4 = pymunk.Segment(body, (-150, 100), (-130, 120), 2)
+    l5 = pymunk.Segment(body, (-100, 100), (-119, 120), 2)
+    l6 = pymunk.Segment(body, (-130, 120), (-130, 131), 2)
+    l7 = pymunk.Segment(body, (-119, 120), (-119, 131), 2)
 
 
     # Glass friction
@@ -235,7 +235,7 @@ def runWorld():
     running = True
 
     space = pymunk.Space()
-    space.gravity = (0.0, -2000.0)
+    space.gravity = (0.0, -900.0)
 
     # Limit switch with bottle bottom
     space.add_collision_handler(0x1, 0x2, begin=bottle_in_place)
@@ -304,7 +304,7 @@ def runWorld():
                 # Move the bottles
                 if PLCGetTag(PLC_TAG_MOTOR) == 1:
                     for bottle in bottles:
-                        bottle[0].body.position.x += 0.35
+                        bottle[0].body.position.x += 0.25
         else:
             PLCSetTag(PLC_TAG_MOTOR, 0)
 
