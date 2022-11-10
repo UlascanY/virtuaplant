@@ -62,7 +62,7 @@ PLC_TAG_RUN = 0x10
 global bottles
 bottles = []
 
-bg = pygame.image.load("fact8.png")
+bg = pygame.image.load("background.png")
 
 def get_ip():
     from netifaces import interfaces, ifaddresses, AF_INET
