@@ -9,5 +9,5 @@ ip = sys.argv[1]
 client = ModbusClient(ip, port=5022)
 client.connect()
 while True:
-#TODO: Create your Attack payload inside the While loop
+  '''TODO'''
 

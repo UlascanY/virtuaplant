@@ -5,9 +5,10 @@ import time
 from pymodbus.client.sync import ModbusTcpClient as ModbusClient
 from pymodbus.exceptions import ConnectionException
 
-ip = sys.argv[1]
-registry = int(sys.argv[2])
-value = int(sys.argv[3])
-client = ModbusClient(ip, port=5022)
+ip = sys.argv[1] # 1 Arg = Target IP-Address
+client = ModbusClient(ip, port=5020)
 client.connect()
-client.write_register(registry, value)
+while True:
+    rr = client.read_holding_registers(1, 16)
+    print(rr.registers)
+    time.sleep(1)

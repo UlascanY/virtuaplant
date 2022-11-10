@@ -67,7 +67,7 @@ SCREEN_HEIGHT = 460
 FPS = 50.0
 
 # Port the world will listen on 5020 is reserved for Bottle-filling
-MODBUS_SERVER_PORT = 5022
+MODBUS_SERVER_PORT = 5020
 
 # Amount of oil spilled/processed
 oil_spilled_amount = 0
@@ -407,7 +407,7 @@ def run_world():
                 running = False
 
         # Load the background picture for the pipe images
-        bg = pygame.image.load("oil_unit.png")
+        bg = pygame.image.load("background.png")
         # Background color
         screen.fill(THECOLORS["grey"])
 

@@ -45,7 +45,7 @@ class HMIWindow(Gtk.Window):
     
     def initModbus(self):
         # Create modbus connection to specified address and port
-        self.modbusClient = ModbusClient(args.server_addr, port=5022)
+        self.modbusClient = ModbusClient(args.server_addr, port=5020)
 
     # Default values for the HMI labels
     def resetLabels(self):
