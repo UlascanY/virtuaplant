@@ -9,4 +9,4 @@ ip = sys.argv[1]
 client = ModbusClient(ip, port=5020)
 client.connect()
 while True:
-  #todo
+  '''TODO'''
