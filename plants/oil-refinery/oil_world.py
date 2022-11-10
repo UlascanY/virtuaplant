@@ -67,7 +67,7 @@ SCREEN_HEIGHT = 460
 FPS = 50.0
 
 # Port the world will listen on 5020 is reserved for Bottle-filling
-MODBUS_SERVER_PORT = 5020
+MODBUS_SERVER_PORT = 5022
 
 # Amount of oil spilled/processed
 oil_spilled_amount = 0
@@ -91,6 +91,13 @@ sep_valve_collision = 0x7
 waste_valve_collision = 0x8
 oil_spill_collision = 0x9
 oil_processed_collision = 0x3
+
+def get_ip():
+    from netifaces import interfaces, ifaddresses, AF_INET
+    for ifaceName in interfaces():
+        addresses = [i['addr'] for i in ifaddresses(ifaceName).setdefault(AF_INET, [{'addr':'No IP addr'}] )]
+        if ifaceName == "enp0s3":
+            return ''.join(addresses)
 
 # Helper function to set PLC values
 def PLCSetTag(addr, value):
@@ -515,7 +522,8 @@ identity.MajorMinorRevision = '2.09.01'
 
 def startModbusServer():
     # Run a modbus server on specified address and modbus port (5020)
-    StartTcpServer(context, identity=identity, address=(args.server_addr, MODBUS_SERVER_PORT))
+    #StartTcpServer(context, identity=identity, address=(args.server_addr, MODBUS_SERVER_PORT))
+    StartTcpServer(context, identity=identity, address=(get_ip(), MODBUS_SERVER_PORT))
 
 def main():
     reactor.callInThread(run_world)

@@ -11,6 +11,17 @@ import argparse
 import os
 import sys
 import time
+from PIL import Image
+
+tmp = 0
+
+def get_ip():
+    from netifaces import interfaces, ifaddresses, AF_INET
+    for ifaceName in interfaces():
+        addresses = [i['addr'] for i in ifaddresses(ifaceName).setdefault(AF_INET, [{'addr':'No IP addr'}] )]
+        if ifaceName == "enp0s3":
+            return ''.join(addresses)
+    
 
 # Argument Parsing
 class MyParser(argparse.ArgumentParser):
@@ -45,7 +56,7 @@ class HMIWindow(Gtk.Window):
     
     def initModbus(self):
         # Create modbus connection to specified address and port
-        self.modbusClient = ModbusClient(args.server_addr, port=5020)
+        self.modbusClient = ModbusClient(str(get_ip()), port=5022)
 
     # Default values for the HMI labels
     def resetLabels(self):
@@ -302,6 +313,13 @@ class HMIWindow(Gtk.Window):
             # If we successfully connect, then show that the HMI has contacted the PLC
             self.connection_status_value.set_markup("<span weight='bold' foreground='green'>ONLINE </span>")
 
+            if regs[5] >= 420 and regs[5] <= 445: #Tank überfüllt Flag1
+                Img=Image.open('flag1.png')
+                Img.show()
+            
+            if regs[6] >= 2000 and regs[6] <= 2084: #flag2
+                Img=Image.open('flag2.png')
+                Img.show()
 
         except ConnectionException:
             if not self.modbusClient.connect():
