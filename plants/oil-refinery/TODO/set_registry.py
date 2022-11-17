@@ -8,6 +8,6 @@ from pymodbus.exceptions import ConnectionException
 ip = sys.argv[1]                # 1 Arg = Target IP-Address
 registry = int(sys.argv[2])     # 2 Arg = Registery from 0 to 16
 value = int(sys.argv[3])        # 3 Arg = Value to write in registe
-client = ModbusClient(ip, port=5020)
+client = ModbusClient(ip, port=5022)
 client.connect()
 client.write_register(registry, value)

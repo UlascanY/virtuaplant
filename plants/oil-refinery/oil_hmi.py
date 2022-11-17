@@ -13,7 +13,7 @@ import sys
 import time
 from PIL import Image
 
-tmp = 0
+
 
 def get_ip():
     from netifaces import interfaces, ifaddresses, AF_INET
@@ -49,7 +49,7 @@ if len(sys.argv)==1:
 args = parser.parse_args()
 
 MODBUS_SLEEP=1
-
+has_run = False
 class HMIWindow(Gtk.Window):
     oil_processed_amount = 0
     oil_spilled_amount = 0
@@ -69,7 +69,7 @@ class HMIWindow(Gtk.Window):
         self.oil_spilled_value.set_markup("<span weight='bold' foreground='red'>" + str(self.oil_spilled_amount) + " Liters</span>")
         self.outlet_valve_value.set_markup("<span weight='bold' foreground='red'>N/A</span>")
         self.waste_value.set_markup("<span weight='bold' foreground='red'>N/A</span>")
-        
+    
     def __init__(self):
         # Window title
         Gtk.Window.__init__(self, title="Oil Refinery")
@@ -255,6 +255,7 @@ class HMIWindow(Gtk.Window):
             pass
         
     def update_status(self):
+        global has_run
 
         try:
             # Store the registers of the PLC in "rr"
@@ -313,13 +314,17 @@ class HMIWindow(Gtk.Window):
             # If we successfully connect, then show that the HMI has contacted the PLC
             self.connection_status_value.set_markup("<span weight='bold' foreground='green'>ONLINE </span>")
 
-            if regs[5] >= 420 and regs[5] <= 445: #Tank überfüllt Flag1
-                Img=Image.open('flag1.png')
-                Img.show()
+            if regs[5] >= 20: #Tank überfüllt Flag1
+                if  has_run == False:
+                    Img=Image.open('flag1.png')
+                    Img.show()
+                    has_run = True
             
-            if regs[6] >= 2000 and regs[6] <= 2084: #flag2
+            if regs[6] >= 2000: #flag2
+                if has_run == False:
                 Img=Image.open('flag2.png')
                 Img.show()
+                has_run = True
 
         except ConnectionException:
             if not self.modbusClient.connect():
