@@ -322,9 +322,9 @@ class HMIWindow(Gtk.Window):
             
             if regs[6] >= 2000: #flag2
                 if has_run == False:
-                Img=Image.open('flag2.png')
-                Img.show()
-                has_run = True
+                    Img=Image.open('flag2.png')
+                    Img.show()
+                    has_run = True
 
         except ConnectionException:
             if not self.modbusClient.connect():
