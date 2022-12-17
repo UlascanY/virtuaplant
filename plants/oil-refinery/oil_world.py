@@ -414,7 +414,7 @@ def run_world():
                 running = False
 
         # Load the background picture for the pipe images
-        bg = pygame.image.load("backgroundN.png")
+        bg = pygame.image.load("background.png")
         # Background color
         screen.fill(THECOLORS["grey"])
 
