@@ -11,3 +11,4 @@ uModbus==1.0.4
 zope.interface==5.4.0
 prompt_toolkit
 PyGObject
+pyinstaller
