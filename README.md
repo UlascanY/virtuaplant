@@ -47,7 +47,7 @@ The following packages are required:
 
 On debian-based systems (like Ubuntu) you can apt-get the packages which are not provided over pip:
 
-    sudo apt-get install python3-pip python3-dev python3-pygame python3-gi python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev gcc libcairo2-dev pkg-config python-is-python3
+    sudo apt-get install python3-pip python3-dev python3-pygame python3-gi python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev gcc libcairo2-dev pkg-config python-is-python3 libcanberra-gtk-module libcanberra-gtk3-module
 
 or install all of the pip packages by using our provided requirement.txt file:
 

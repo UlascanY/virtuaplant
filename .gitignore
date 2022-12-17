@@ -2,9 +2,12 @@
 build/*
 =======
 plants/bottle-filling/build/*
-plants/bottle-filling/dist/*
+plants/bottle-filling/dist/hmi
+plants/bottle-filling/dist/world
 plants/bottle-filling/*.spec
-plants/oil-refinery/dist/*
+
+plants/oil-refinery/dist/oil_hmi
+plants/oil-refinery/dist/oil_world
 plants/oil-refinery/build/*
 plants/oil-refinery/*.spec
 >>>>>>> ba5938c (gitignore update)
