@@ -2,6 +2,6 @@
 
 echo "VirtuaPlant -- Bottle-filling Factory"
 echo "- Starting World View"
-./world.py &
+./dist/world &
 echo "- Starting HMI"
-./hmi.py &
+./dist/hmi &
