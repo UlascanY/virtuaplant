@@ -150,12 +150,12 @@ def add_bottle(space):
     body = pymunk.Body(mass, inertia)
     body.position = (130,330)
     l1 = pymunk.Segment(body, (-150, 0), (-100, 0), 8)
-    l2 = pymunk.Segment(body, (-150, 0), (-150, 100),8)
-    l3 = pymunk.Segment(body, (-100, 0), (-100, 100), 8)
-    l4 = pymunk.Segment(body, (-150, 100), (-140, 115), 8)
-    l5 = pymunk.Segment(body, (-100, 100), (-110, 115), 8)
-    l6 = pymunk.Segment(body, (-140, 115), (-140, 125), 8)
-    l7 = pymunk.Segment(body, (-110, 115), (-110, 125), 8)
+    l2 = pymunk.Segment(body, (-150, 0), (-150, 90),8)
+    l3 = pymunk.Segment(body, (-100, 0), (-100, 90), 8)
+    l4 = pymunk.Segment(body, (-150, 90), (-140, 105), 8)
+    l5 = pymunk.Segment(body, (-100, 90), (-110, 105), 8)
+    l6 = pymunk.Segment(body, (-140, 105), (-140, 115), 8)
+    l7 = pymunk.Segment(body, (-110, 105), (-110, 115), 8)
 
 
     # Glass friction
