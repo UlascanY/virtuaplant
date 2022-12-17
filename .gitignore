@@ -1,1 +1,10 @@
+<<<<<<< HEAD
 build/*
+=======
+plants/bottle-filling/build/*
+plants/bottle-filling/dist/*
+plants/bottle-filling/*.spec
+plants/oil-refinery/dist/*
+plants/oil-refinery/build/*
+plants/oil-refinery/*.spec
+>>>>>>> ba5938c (gitignore update)
