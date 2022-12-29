@@ -72,16 +72,19 @@ MODBUS_SERVER_PORT = 5022
 # Amount of oil spilled/processed
 oil_spilled_amount = 0
 oil_processed_amount = 0
+water_processed_amount = 0
 
 # PLC Register values for various control functions
 PLC_FEED_PUMP = 0x01
 PLC_TANK_LEVEL = 0x02
 PLC_OUTLET_VALVE = 0x03
 PLC_SEP_VALVE = 0x04
+PLC_WATER_PROCESSED = 0x05
 PLC_OIL_SPILL = 0x06
 PLC_OIL_PROCESSED = 0x07
 PLC_WASTE_VALVE = 0x08
 PLC_OIL_UPPER = 0x09
+PLC_WATER_UPPER = 0x10
 
 # Collision types
 tank_level_collision = 0x4
@@ -91,6 +94,7 @@ sep_valve_collision = 0x7
 waste_valve_collision = 0x8
 oil_spill_collision = 0x9
 oil_processed_collision = 0x3
+water_processed_collision = 0x2
 
 def get_ip():
     from netifaces import interfaces, ifaddresses, AF_INET
@@ -198,10 +202,22 @@ def oil_processed_sensor(space):
     body = pymunk.Body()
     body.position = (327, 218)
     radius = 7
-    a = (-110, -20)
-    b = (12, -20)
+    a = (-12, -15)
+    b = (12, -15)
     shape = pymunk.Segment(body, a, b, radius)
     shape.collision_type = oil_processed_collision # oil processed sensor
+    space.add(shape)
+    return shape
+
+    # Sensor at the bottom of the world that detects and counts spills
+def water_processed_sensor(space):
+    body = pymunk.Body()
+    body.position = (327, 218)
+    radius = 7
+    a = (-110, -15)
+    b = (-90, -15)
+    shape = pymunk.Segment(body, a, b, radius)
+    shape.collision_type = water_processed_collision # oil processed sensor
     space.add(shape)
     return shape
 
@@ -331,6 +347,17 @@ def oil_processed(space, arbiter, *args, **kwargs):
         PLCSetTag(PLC_OIL_UPPER, oil_processed_amount-65000) # We processed a unit of oil
     else:
         PLCSetTag(PLC_OIL_PROCESSED, oil_processed_amount) # We processed a unit of oil
+    return False 
+
+def water_processed(space, arbiter, *args, **kwargs):
+    global water_processed_amount
+    log.debug("Water Processed")
+    water_processed_amount = water_processed_amount + 1
+    if water_processed_amount >= 65000:
+        PLCSetTag(PLC_WATER_PROCESSED , 65000) # We processed a unit of oil
+        PLCSetTag(PLC_WATER_UPPER, water_processed_amount-65000) # We processed a unit of oil
+    else:
+        PLCSetTag(PLC_WATER_PROCESSED , water_processed_amount) # We processed a unit of oil
     return False  
     
 # This is on when separation is on
@@ -377,6 +404,8 @@ def run_world():
     space.add_collision_handler(oil_spill_collision, ball_collision, begin=oil_spilled)
     # When oil touches the oil_process marker, call oil_processed
     space.add_collision_handler(oil_processed_collision, ball_collision, begin=oil_processed)
+   # When water touches the water_process marker, call water_processed
+    space.add_collision_handler(water_processed_collision, ball_collision, begin=water_processed)
     # Initial outlet valve condition is turned off
     space.add_collision_handler(outlet_valve_collision, ball_collision, begin=no_collision)
     # Initial sep valve condition is turned off
@@ -391,6 +420,7 @@ def run_world():
     sep_valve_obj = sep_valve(space)
     oil_spill = oil_spill_sensor(space)
     oil_process = oil_processed_sensor(space)
+    water_process = water_processed_sensor(space)
     outlet = outlet_valve(space)
     waste_valve_obj = waste_valve(space)
     
@@ -425,11 +455,11 @@ def run_world():
             if (PLCGetTag(PLC_TANK_LEVEL) == 1):
                 PLCSetTag(PLC_FEED_PUMP, 0)
 
-        # If the feed pump is on
+        # If the PLC_WASTE_VALE is on
         if PLCGetTag(PLC_WASTE_VALVE) == 1:
             # Draw the valve if the pump is on
             # If the oil reaches the level sensor at the top of the tank
-            if (PLCGetTag(PLC_SEP_VALVE) == 0):
+            if (PLCGetTag(PLC_SEP_VALVE) == 1):
                 PLCSetTag(PLC_WASTE_VALVE, 0)
 
         # Oil Tank outlet valve open/closed collision handler
@@ -476,7 +506,8 @@ def run_world():
         draw_line(bg, outlet)
         draw_line(bg, waste_valve_obj)
         draw_line(bg, oil_spill, THECOLORS['red'])
-        draw_line(bg, oil_process, THECOLORS['grey'])
+        draw_line(bg, oil_process, THECOLORS['red'])
+        draw_line(bg, water_process, THECOLORS['red'])
 
         #draw_ball(screen, separator_feed, THECOLORS['red'])
         title = fontMedium.render(str("Crude Oil Pretreatment Unit"), 1, THECOLORS['blue'])

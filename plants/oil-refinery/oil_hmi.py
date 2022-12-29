@@ -52,6 +52,7 @@ MODBUS_SLEEP=1
 has_run = False
 class HMIWindow(Gtk.Window):
     oil_processed_amount = 0
+    water_processed_amount = 0
     oil_spilled_amount = 0
     
     def initModbus(self):
@@ -66,6 +67,7 @@ class HMIWindow(Gtk.Window):
         self.process_status_value.set_markup("<span weight='bold' foreground='gray33'>N/A</span>")
         self.connection_status_value.set_markup("<span weight='bold' foreground='red'>OFFLINE</span>")
         self.oil_processed_value.set_markup("<span weight='bold' foreground='green'>" + str(self.oil_processed_amount) + " Liters</span>")
+        self.water_processed_value.set_markup("<span weight='bold' foreground='green'>" + str(self.water_processed_amount) + " Liters</span>")
         self.oil_spilled_value.set_markup("<span weight='bold' foreground='red'>" + str(self.oil_spilled_amount) + " Liters</span>")
         self.outlet_valve_value.set_markup("<span weight='bold' foreground='red'>N/A</span>")
         self.waste_value.set_markup("<span weight='bold' foreground='red'>N/A</span>")
@@ -191,6 +193,13 @@ class HMIWindow(Gtk.Window):
         grid.attach(oil_processed_label, 4, elementIndex, 1, 1)
         grid.attach(oil_processed_value, 5, elementIndex, 1, 1)
         elementIndex += 1
+
+        # Water Processed Status 
+        water_processed_label = Gtk.Label(label="Waste Water Processed")
+        water_processed_value = Gtk.Label()
+        grid.attach(water_processed_label, 4, elementIndex, 1, 1)
+        grid.attach(water_processed_value, 5, elementIndex, 1, 1)
+        elementIndex += 1
         
         # Oil Spilled Status
         oil_spilled_label = Gtk.Label(label="Oil Spilled Status")
@@ -212,6 +221,7 @@ class HMIWindow(Gtk.Window):
         self.separator_value = separator_value
         self.level_switch_value = level_switch_value
         self.oil_processed_value = oil_processed_value
+        self.water_processed_value = water_processed_value
         self.oil_spilled_value = oil_spilled_value
         self.outlet_valve_value = outlet_valve_value
         self.waste_value = waste_value
@@ -311,6 +321,9 @@ class HMIWindow(Gtk.Window):
             if regs[6]:
                 self.oil_processed_value.set_markup("<span weight='bold' foreground='green'>" + str(regs[6] + regs[8]) + " Liters</span>")
 
+            if regs[4]:
+                self.water_processed_value.set_markup("<span weight='bold' foreground='green'>" + str(regs[4]) + " Liters</span>")
+
             # If we successfully connect, then show that the HMI has contacted the PLC
             self.connection_status_value.set_markup("<span weight='bold' foreground='green'>ONLINE </span>")
 
@@ -320,7 +333,7 @@ class HMIWindow(Gtk.Window):
                     Img.show()
                     has_run = True
             
-            if regs[6] >= 2000 and regs[3] == 0 and regs[7] == 1: #flag2
+            if regs[4] >= 2000 and regs[3] == 0 and regs[7] == 1: #flag2
                 if has_run == False:
                     Img=Image.open('flag2.png')
                     Img.show()
