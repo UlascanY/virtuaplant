@@ -314,13 +314,13 @@ class HMIWindow(Gtk.Window):
             # If we successfully connect, then show that the HMI has contacted the PLC
             self.connection_status_value.set_markup("<span weight='bold' foreground='green'>ONLINE </span>")
 
-            if regs[5] >= 20: #Tank überfüllt Flag1
+            if regs[5] >= 200: #Tank überfüllt Flag1
                 if  has_run == False:
                     Img=Image.open('flag1.png')
                     Img.show()
                     has_run = True
             
-            if regs[6] >= 2000: #flag2
+            if regs[6] >= 2000 and regs[3] == 0 and regs[7] == 1: #flag2
                 if has_run == False:
                     Img=Image.open('flag2.png')
                     Img.show()

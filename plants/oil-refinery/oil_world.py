@@ -198,8 +198,8 @@ def oil_processed_sensor(space):
     body = pymunk.Body()
     body.position = (327, 218)
     radius = 7
-    a = (-12, -5)
-    b = (12, -5)
+    a = (-110, -20)
+    b = (12, -20)
     shape = pymunk.Segment(body, a, b, radius)
     shape.collision_type = oil_processed_collision # oil processed sensor
     space.add(shape)
@@ -425,6 +425,13 @@ def run_world():
             if (PLCGetTag(PLC_TANK_LEVEL) == 1):
                 PLCSetTag(PLC_FEED_PUMP, 0)
 
+        # If the feed pump is on
+        if PLCGetTag(PLC_WASTE_VALVE) == 1:
+            # Draw the valve if the pump is on
+            # If the oil reaches the level sensor at the top of the tank
+            if (PLCGetTag(PLC_SEP_VALVE) == 0):
+                PLCSetTag(PLC_WASTE_VALVE, 0)
+
         # Oil Tank outlet valve open/closed collision handler
         if PLCGetTag(PLC_OUTLET_VALVE) == 1:
             space.add_collision_handler(outlet_valve_collision, ball_collision, begin=outlet_valve_open)
@@ -469,7 +476,7 @@ def run_world():
         draw_line(bg, outlet)
         draw_line(bg, waste_valve_obj)
         draw_line(bg, oil_spill, THECOLORS['red'])
-        draw_line(bg, oil_process, THECOLORS['red'])
+        draw_line(bg, oil_process, THECOLORS['grey'])
 
         #draw_ball(screen, separator_feed, THECOLORS['red'])
         title = fontMedium.render(str("Crude Oil Pretreatment Unit"), 1, THECOLORS['blue'])
