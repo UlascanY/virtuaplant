@@ -455,12 +455,6 @@ def run_world():
             if (PLCGetTag(PLC_TANK_LEVEL) == 1):
                 PLCSetTag(PLC_FEED_PUMP, 0)
 
-        # If the PLC_WASTE_VALE is on
-        if PLCGetTag(PLC_WASTE_VALVE) == 1:
-            # Draw the valve if the pump is on
-            # If the oil reaches the level sensor at the top of the tank
-            if (PLCGetTag(PLC_SEP_VALVE) == 1):
-                PLCSetTag(PLC_WASTE_VALVE, 0)
 
         # Oil Tank outlet valve open/closed collision handler
         if PLCGetTag(PLC_OUTLET_VALVE) == 1:

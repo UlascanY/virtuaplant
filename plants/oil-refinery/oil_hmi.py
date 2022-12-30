@@ -150,6 +150,7 @@ class HMIWindow(Gtk.Window):
 
         separator_open_button.connect("clicked", self.setSepValve, 1)
         separator_close_button.connect("clicked", self.setSepValve, 0)
+        separator_close_button.connect("clicked", self.setWasteValve, 0)
 
         grid.attach(separator_label, 4, elementIndex, 1, 1)
         grid.attach(separator_value, 5, elementIndex, 1, 1)
@@ -165,6 +166,7 @@ class HMIWindow(Gtk.Window):
         waste_close_button = Gtk.Button(label="CLOSED")
         
         waste_open_button.connect("clicked", self.setWasteValve, 1)
+        waste_open_button.connect("clicked", self.setSepValve, 1)
         waste_close_button.connect("clicked", self.setWasteValve, 0)
         
         grid.attach(waste_label, 4, elementIndex, 1, 1)
@@ -195,7 +197,7 @@ class HMIWindow(Gtk.Window):
         elementIndex += 1
 
         # Water Processed Status 
-        water_processed_label = Gtk.Label(label="Waste Water Processed")
+        water_processed_label = Gtk.Label(label="Waste Water Status")
         water_processed_value = Gtk.Label()
         grid.attach(water_processed_label, 4, elementIndex, 1, 1)
         grid.attach(water_processed_value, 5, elementIndex, 1, 1)
@@ -333,7 +335,7 @@ class HMIWindow(Gtk.Window):
                     Img.show()
                     has_run = True
             
-            if regs[4] >= 2000 and regs[3] == 0 and regs[7] == 1: #flag2
+            if regs[4] >= 2000 and regs[6] <= 50: #flag2
                 if has_run == False:
                     Img=Image.open('flag2.png')
                     Img.show()
